@@ -21,7 +21,7 @@ function App() {
         </Routes>
 
         <footer className="mt-3 rounded-[10px] border border-white/10 bg-black/30 px-4 py-2 text-xs text-gray-500 md:px-5">
-          Built with coffee and credits and memories about someone
+          Built with coffee, credits and memories about someone
         </footer>
       </div>
     </div>
