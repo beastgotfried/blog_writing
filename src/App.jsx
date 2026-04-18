@@ -56,7 +56,7 @@ function App() {
         </section>
 
         <footer className="mt-6 border border-white/10 px-4 py-3 text-xs text-gray-500 md:mt-8 md:px-5">
-          Built with coffee and credits
+          Built with coffee and credits and memories about someone
         </footer>
       </div>
     </div>
@@ -79,17 +79,46 @@ function HomePage({ posts }) {
         </p>
       </header>
 
-      <main className="border border-white/10 bg-black/45 p-5 backdrop-blur-sm md:p-7">
-        <div className="mb-5 flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-gray-500">
-          <BookOpenText size={14} strokeWidth={1.5} />
-          <span>recent blog posts</span>
-        </div>
+      <main className="space-y-5">
+        <section className="border border-white/10 bg-black/45 backdrop-blur-sm">
+          <div className="border-b border-white/10 px-5 py-3 text-xs uppercase tracking-[0.16em] text-gray-500 md:px-7">
+            Who am i??
+          </div>
+          <div className="px-5 py-5 md:px-7 md:py-6">
+            <p className="max-w-4xl text-sm leading-7 text-gray-300 md:text-base">
+              Hey, my name is Ankush. I am an absolute geek who is ready to learn everything. I dont have anyone to write to anymore :( so i resorted to writing something about what i learnt for the world to read and hopefully comment what they think <br /><br />
 
-        <div className="grid gap-4 md:grid-cols-2">
-          {posts.map((post) => (
-            <PostCard key={post.slug} post={post} />
-          ))}
-        </div>
+              Thinking about comments.. hmm... we could probably get that thing added here as well lets see how well i can dive my hands into postgres and backend in the future. For now you can send anything you would want me to add or subtract from the blogs that you felt wrong by personally messing or texting me on my linkedin or twitter
+              
+            </p>
+          </div>
+        </section>
+
+        <section className="border border-white/10 bg-black/45 backdrop-blur-sm">
+          <div className="border-b border-white/10 px-5 pt-4 md:px-7">
+            <div className="flex items-end gap-3">
+              <span className="inline-flex items-center gap-2 rounded-t-md border border-white/20 border-b-black bg-black px-3 py-2 text-xs uppercase tracking-[0.16em] text-zinc-100">
+                <BookOpenText size={14} strokeWidth={1.5} />
+                Blogs
+              </span>
+              <span className="pb-2 text-[11px] uppercase tracking-[0.14em] text-gray-500">
+                {posts.length} posts
+              </span>
+            </div>
+          </div>
+
+          <div className="p-5 md:p-7">
+            <div className="mb-5 text-xs uppercase tracking-[0.16em] text-gray-500">
+              Recent blog posts
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              {posts.map((post) => (
+                <PostCard key={post.slug} post={post} />
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
     </>
   )
