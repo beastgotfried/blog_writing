@@ -5,7 +5,7 @@ export function PostCard({ post }) {
   return (
     <Link
       to={`/blog/${post.slug}`}
-      className="gradient-border relative block w-full overflow-hidden border border-white/10 bg-black/35 p-4 text-left transition hover:border-white/25 hover:bg-white/5"
+      className="gradient-border relative block w-full overflow-hidden rounded-[10px] border border-white/10 bg-black/35 p-4 text-left transition hover:border-white/25 hover:bg-white/5"
     >
       <p className="mb-2 text-sm text-zinc-100">{post.title}</p>
       <p className="mb-3 text-xs leading-6 text-gray-400">{post.excerpt}</p>

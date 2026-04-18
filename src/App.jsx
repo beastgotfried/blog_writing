@@ -10,7 +10,7 @@ function App() {
   const posts = useMemo(() => loadPosts(), [])
 
   return (
-    <div className="relative min-h-screen bg-black px-4 py-5 text-gray-200 md:px-8 md:py-8">
+    <div className="relative min-h-screen overflow-hidden bg-black px-4 py-4 text-gray-200 md:px-8 md:py-6">
       <Starfield />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl">
@@ -20,42 +20,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
 
-        <section className="mt-6 border border-white/10 bg-black/40 px-4 py-4 backdrop-blur-sm md:px-5">
-          <h3 className="mb-3 mt-0 text-xs uppercase tracking-[0.16em] text-gray-400">
-            connect
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="https://www.linkedin.com/in/ankush-wadehra-bb64b0258/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 border border-white/15 px-3 py-2 text-xs uppercase tracking-[0.12em] text-gray-300 transition hover:border-white/35 hover:text-zinc-100"
-            >
-              <LinkIcon size={14} strokeWidth={1.7} />
-              LinkedIn
-            </a>
-            <a
-              href="https://github.com/beastgotfried"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 border border-white/15 px-3 py-2 text-xs uppercase tracking-[0.12em] text-gray-300 transition hover:border-white/35 hover:text-zinc-100"
-            >
-              <FolderGit2 size={14} strokeWidth={1.7} />
-              GitHub
-            </a>
-            <a
-              href="https://x.com/wank_ush"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 border border-white/15 px-3 py-2 text-xs uppercase tracking-[0.12em] text-gray-300 transition hover:border-white/35 hover:text-zinc-100"
-            >
-              <Bird size={14} strokeWidth={1.7} />
-              Twitter
-            </a>
-          </div>
-        </section>
-
-        <footer className="mt-6 border border-white/10 px-4 py-3 text-xs text-gray-500 md:mt-8 md:px-5">
+        <footer className="mt-3 rounded-[10px] border border-white/10 bg-black/30 px-4 py-2 text-xs text-gray-500 md:px-5">
           Built with coffee and credits and memories about someone
         </footer>
       </div>
@@ -64,63 +29,95 @@ function App() {
 }
 
 function HomePage({ posts }) {
+  const recentPosts = posts.slice(0, 5)
+
   return (
-    <>
-      <header className="mb-8 border border-white/10 bg-black/40 px-5 py-4 backdrop-blur-sm md:mb-10 md:px-7 md:py-5">
-        <div className="mb-3 flex items-center gap-2 text-gray-400">
-          <MoonStar size={16} strokeWidth={1.5} />
-          <span className="text-xs tracking-[0.2em]">Beasted</span>
+    <main className="grid gap-4 md:h-[calc(100vh-7.2rem)] md:grid-cols-[1.08fr_0.92fr] md:gap-5">
+      <section className="rounded-[10px] border border-white/25 bg-gradient-to-br from-zinc-900/90 via-zinc-900/80 to-black p-5 backdrop-blur-sm md:flex md:flex-col md:p-7">
+        <header className="mb-5 border-b border-white/20 pb-4">
+          <div className="mb-3 flex items-center gap-2 text-white/80">
+            <MoonStar size={16} strokeWidth={1.5} />
+            <span className="text-xs tracking-[0.2em]">BEASTED</span>
+          </div>
+          <h1 className="m-0 text-3xl font-medium text-zinc-100 md:text-5xl">
+            Documenting My Journey In Tech
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70 md:text-base">
+            Notes, experiments, and lessons as I keep building and learning in public.
+          </p>
+        </header>
+
+        <div className="rounded-[10px] border border-white/15 bg-black/35 p-4 md:p-5">
+          <h2 className="mb-3 mt-0 text-xs uppercase tracking-[0.16em] text-white/70">About Me</h2>
+          <p className="text-sm leading-7 text-zinc-300">
+            Hey, my name is Ankush. I am an absolute geek who is ready to learn everything.
+            I write about what I learn in tech for anyone who wants to build along. <br /><br />
+          </p>
+          <p className="mt-3 text-xs leading-7 text-zinc-400">
+            You can always reach out with suggestions, corrections, or ideas for future posts.
+          </p>
         </div>
-        <h1 className="m-0 text-3xl font-medium text-zinc-100 md:text-5xl">
-          Documenting my learnings in tech
-        </h1>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-gray-400 md:text-base">
-          Join me in my journey, traversing through tech
-        </p>
-      </header>
 
-      <main className="space-y-5">
-        <section className="border border-white/10 bg-black/45 backdrop-blur-sm">
-          <div className="border-b border-white/10 px-5 py-3 text-xs uppercase tracking-[0.16em] text-gray-500 md:px-7">
-            Who am i??
+        <div className="mt-4 rounded-[10px] border border-white/15 bg-black/30 p-4 md:mt-auto md:p-5">
+          <h3 className="mb-3 mt-0 text-xs uppercase tracking-[0.16em] text-white/70">Connect</h3>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="https://www.linkedin.com/in/ankush-wadehra-bb64b0258/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-[10px] border border-white/25 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white/90 transition hover:border-white/50"
+            >
+              <LinkIcon size={14} strokeWidth={1.7} />
+              LinkedIn
+            </a>
+            <a
+              href="https://github.com/beastgotfried"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-[10px] border border-white/25 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white/90 transition hover:border-white/50"
+            >
+              <FolderGit2 size={14} strokeWidth={1.7} />
+              GitHub
+            </a>
+            <a
+              href="https://x.com/wank_ush"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-[10px] border border-white/25 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white/90 transition hover:border-white/50"
+            >
+              <Bird size={14} strokeWidth={1.7} />
+              Twitter
+            </a>
           </div>
-          <div className="px-5 py-5 md:px-7 md:py-6">
-            <p className="max-w-4xl text-sm leading-7 text-gray-300 md:text-base">
-              Hey, my name is Ankush. I am an absolute geek who is ready to learn everything. I dont have anyone to write to anymore :( so i resorted to writing something about what i learnt for the world to read and hopefully comment what they think <br /><br />
+        </div>
+      </section>
 
-              Thinking about comments.. hmm... we could probably get that thing added here as well lets see how well i can dive my hands into postgres and backend in the future. For now you can send anything you would want me to add or subtract from the blogs that you felt wrong by personally messing or texting me on my linkedin or twitter
-              
-            </p>
+      <section className="rounded-[10px] border border-white/25 bg-gradient-to-br from-zinc-900/85 via-zinc-900/80 to-black backdrop-blur-sm md:flex md:min-h-0 md:flex-col">
+        <div className="border-b border-white/20 px-5 pt-4 md:px-7">
+          <div className="flex items-end justify-between gap-3">
+            <span className="inline-flex items-center gap-2 rounded-t-[10px] border border-white/30 border-b-black bg-black px-3 py-2 text-xs uppercase tracking-[0.16em] text-white">
+              <BookOpenText size={14} strokeWidth={1.5} />
+              Recent Blog Posts
+            </span>
+            <span className="pb-2 text-[11px] uppercase tracking-[0.14em] text-white/70">
+              {posts.length} total
+            </span>
           </div>
-        </section>
+        </div>
 
-        <section className="border border-white/10 bg-black/45 backdrop-blur-sm">
-          <div className="border-b border-white/10 px-5 pt-4 md:px-7">
-            <div className="flex items-end gap-3">
-              <span className="inline-flex items-center gap-2 rounded-t-md border border-white/20 border-b-black bg-black px-3 py-2 text-xs uppercase tracking-[0.16em] text-zinc-100">
-                <BookOpenText size={14} strokeWidth={1.5} />
-                Blogs
-              </span>
-              <span className="pb-2 text-[11px] uppercase tracking-[0.14em] text-gray-500">
-                {posts.length} posts
-              </span>
-            </div>
+        <div className="p-5 md:min-h-0 md:flex-1 md:overflow-y-auto md:p-7">
+          <div className="mb-4 text-xs uppercase tracking-[0.16em] text-white/70">
+            latest entries
           </div>
 
-          <div className="p-5 md:p-7">
-            <div className="mb-5 text-xs uppercase tracking-[0.16em] text-gray-500">
-              Recent blog posts
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              {posts.map((post) => (
-                <PostCard key={post.slug} post={post} />
-              ))}
-            </div>
+          <div className="grid gap-3">
+            {recentPosts.map((post) => (
+              <PostCard key={post.slug} post={post} />
+            ))}
           </div>
-        </section>
-      </main>
-    </>
+        </div>
+      </section>
+    </main>
   )
 }
 
@@ -133,16 +130,18 @@ function BlogPostPage({ posts }) {
   }
 
   return (
-    <main className="border border-white/10 bg-black/45 p-5 backdrop-blur-sm md:p-7">
-      <div className="mb-5">
+    <>
+      <div className="fixed left-6 top-5 z-50 md:left-10 md:top-7">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-gray-400 hover:text-zinc-200"
+          className="inline-flex items-center gap-2 rounded-[10px] border border-white/20 bg-black/70 px-3 py-2 text-xs uppercase tracking-[0.14em] text-gray-300 backdrop-blur-sm transition hover:border-white/40 hover:text-zinc-100"
         >
-          <ArrowLeft size={14} strokeWidth={1.7} />
-          back to home
+          <ArrowLeft size={14} strokeWidth={3} />
+          
         </Link>
       </div>
+
+      <main className="rounded-[10px] border border-white/10 bg-black/45 p-5 pt-14 backdrop-blur-sm md:p-7 md:pt-16">
 
       <div className="mb-5 flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-gray-500">
         <BookOpenText size={14} strokeWidth={1.5} />
@@ -156,7 +155,8 @@ function BlogPostPage({ posts }) {
         className="prose-note text-sm md:text-base"
         dangerouslySetInnerHTML={{ __html: marked.parse(post.content) }}
       />
-    </main>
+      </main>
+    </>
   )
 }
 
