@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Serif:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  color: #d1d5db;
+  font-family: 'IBM Plex Sans', sans-serif;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.045), transparent 36%),
+    radial-gradient(circle at 80% 85%, rgba(255, 255, 255, 0.035), transparent 40%),
+    #000;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'IBM Plex Serif', serif;
+}
+
+.star {
+  position: absolute;
+  border-radius: 999px;
+  width: var(--size);
+  height: var(--size);
+  left: var(--left);
+  top: var(--top);
+  background: rgba(255, 255, 255, 0.8);
+  opacity: 0.2;
+  animation:
+    twinkle var(--twinkle) ease-in-out infinite,
+    drift var(--drift) ease-in-out infinite;
+  animation-delay: var(--delay), var(--delay);
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.32));
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.12;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(var(--dx), var(--dy), 0);
+  }
+}
+
+.prose-note p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #9ca3af;
+  line-height: 1.7;
+}
+
+.prose-note code {
+  border-radius: 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.1rem 0.4rem;
+  font-size: 0.85rem;
+}
+
+.prose-note pre {
+  overflow-x: auto;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.025);
+  padding: 0.9rem 1rem;
+}
+
+.prose-note h2,
+.prose-note h3 {
+  margin-top: 1.7rem;
+  margin-bottom: 0.8rem;
+  color: #f5f5f5;
+  font-weight: 500;
+}
+
+.prose-note ul {
+  margin-top: 0.3rem;
+  margin-bottom: 1rem;
+  padding-left: 1.2rem;
+}
+
+.prose-note li {
+  margin-bottom: 0.4rem;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  transition: left 0.4s ease-out;
+}
+
+.gradient-border:hover::before {
+  left: 100%;
+}
