@@ -1,21 +1,22 @@
 ---
-title: Talking about OpenCV
+title: Talking about Edge Detection in OpenCV
 date: 2026-04-18
 tags: Computer Vision,OpenCV
 excerpt: Diving Deep into what and how the library functions with its components!
+repoUrl: https://github.com/beastgotfried/OpenCV
 ---
 
 ## INTRODUCTION
 
-1. OpenCV is a python library and now we will be divine into what OpenCV is and how OpenCV works and talk a little about the functions that are integrated into it by default for edge detection and template matching
+1. OpenCV is a python library and now we will be diving into what OpenCV is and how OpenCV works, talk a little about the functions that are integrated into it by default for edge detection and template matching
 
-2. This documentation will talk about 2 very important edge detection alogrithms used wdiely in todays world in computer vision.
+2. This documentation will talk about 2 very important edge detection alogrithms used widely in todays world in computer vision.
 
 ---
 
 ## FLOW OF THE DOCUMENTATION
 
-1. The flow of this documentation is going to be derived from the flow of how the initial documentation of openCV was created by the creators and will have addons and inferences that I made whilst learning this. I will also take reference from a repository with each major section of learning OpenCV highlighted into it. I will be attaching the repository for reference at the top.. now without any further delay lets get into it.
+1. The flow of this documentation is going to be derived from the flow of how the initial documentation of openCV was created by the creators and will have addons and inferences that I made whilst learning this, it has been attached to the documentation. I will also take reference from a repository with each major section of learning OpenCV highlighted into it. I will be attaching the repository for reference at the top.. now without any further delay lets get into it.
 
 ---
 
@@ -29,9 +30,7 @@ So the first step of using this library would definitel be importing it.. we do 
 
 Coming to how we read images in OpenCV, its literally what we speak it to be which is:
 
-```
-img=cv2.imread('image-name',color)
-```
+```img=cv2.imread('image-name',color)```
 
 So now, lets talk about the components of this, while importing an image we can do 2 things.
 
@@ -207,7 +206,12 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 ```
 
+
 ---
+
+Well, this is how both the methods work. I would still prefer the first method i presented because of its accuracy and scalability(also the name sounds cool haha)
+
+
 
 and with this the explanation of both the methods is completed, hope you guys had an informative and fun read!!
 

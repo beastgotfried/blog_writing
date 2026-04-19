@@ -50,6 +50,7 @@ export function loadPosts() {
       date: attributes.date ?? 'unknown',
       excerpt: attributes.excerpt ?? body.slice(0, 140),
       tags: Array.isArray(attributes.tags) ? attributes.tags : [],
+      repoUrl: attributes.repoUrl ?? '',
       content: body,
     }
   })

@@ -33,7 +33,7 @@ function HomePage({ posts }) {
 
   return (
     <main className="grid gap-4 md:h-[calc(100vh-7.2rem)] md:grid-cols-[1.08fr_0.92fr] md:gap-5">
-      <section className="rounded-[10px] border border-white/25 bg-gradient-to-br from-zinc-900/90 via-zinc-900/80 to-black p-5 backdrop-blur-sm md:flex md:flex-col md:p-7">
+      <section className="rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/90 via-zinc-900/80 to-black p-5 backdrop-blur-sm md:flex md:flex-col md:p-7">
         <header className="mb-5 border-b border-white/20 pb-4">
           <div className="mb-3 flex items-center gap-2 text-white/80">
             <MoonStar size={16} strokeWidth={1.5} />
@@ -50,8 +50,7 @@ function HomePage({ posts }) {
         <div className="rounded-[10px] border border-white/15 bg-black/35 p-4 md:p-5">
           <h2 className="mb-3 mt-0 text-xs uppercase tracking-[0.16em] text-white/70">About Me</h2>
           <p className="text-sm leading-7 text-zinc-300">
-            Hey, my name is Ankush. I am an absolute geek who is ready to learn everything.
-            I write about what I learn in tech for anyone who wants to build along. <br /><br />
+            Hey, my name is Ankush and I am a 1st Year B.Tech Student. I am writing here because i dont have anyone to write to anymore and its fun to document things as you learn them <br /><br />
           </p>
           <p className="mt-3 text-xs leading-7 text-zinc-400">
             You can always reach out with suggestions, corrections, or ideas for future posts.
@@ -92,7 +91,7 @@ function HomePage({ posts }) {
         </div>
       </section>
 
-      <section className="rounded-[10px] border border-white/25 bg-gradient-to-br from-zinc-900/85 via-zinc-900/80 to-black backdrop-blur-sm md:flex md:min-h-0 md:flex-col">
+      <section className="rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/85 via-zinc-900/80 to-black backdrop-blur-sm md:flex md:min-h-0 md:flex-col">
         <div className="border-b border-white/20 px-5 pt-4 md:px-7">
           <div className="flex items-end justify-between gap-3">
             <span className="inline-flex items-center gap-2 rounded-t-[10px] border border-white/30 border-b-black bg-black px-3 py-2 text-xs uppercase tracking-[0.16em] text-white">
@@ -140,6 +139,27 @@ function BlogPostPage({ posts }) {
           
         </Link>
       </div>
+
+      {post.repoUrl ? (
+        <a
+          href={post.repoUrl}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Open reference repository"
+          title="Open reference repository"
+          className="fixed right-6 top-5 z-50 inline-flex items-center gap-2 rounded-[10px] border border-white/20 bg-black/70 px-3 py-2 text-xs uppercase tracking-[0.14em] text-gray-300 backdrop-blur-sm transition hover:border-white/40 hover:text-zinc-100 md:right-10 md:top-7"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="h-[13px] w-[13px]"
+            fill="currentColor"
+          >
+            <path d="M12 2C6.477 2 2 6.615 2 12.308c0 4.555 2.865 8.417 6.839 9.773.5.097.682-.224.682-.5 0-.246-.01-1.004-.015-1.82-2.782.624-3.369-1.216-3.369-1.216-.455-1.194-1.11-1.512-1.11-1.512-.908-.64.069-.627.069-.627 1.004.073 1.532 1.052 1.532 1.052.893 1.573 2.342 1.118 2.91.855.091-.662.35-1.118.636-1.375-2.22-.261-4.556-1.145-4.556-5.095 0-1.126.38-2.046 1.003-2.766-.101-.262-.435-1.315.098-2.74 0 0 .817-.268 2.675 1.056A9.14 9.14 0 0 1 12 6.934c.83.004 1.665.114 2.446.335 1.857-1.324 2.673-1.056 2.673-1.056.535 1.425.2 2.478.1 2.74.624.72 1.003 1.64 1.003 2.766 0 3.96-2.34 4.83-4.566 5.086.36.32.68.955.68 1.926 0 1.392-.013 2.514-.013 2.856 0 .278.18.601.688.499C19.14 20.72 22 16.86 22 12.308 22 6.615 17.523 2 12 2Z" />
+          </svg>
+          Repository
+        </a>
+      ) : null}
 
       <main className="rounded-[10px] border border-white/10 bg-black/45 p-5 pt-14 backdrop-blur-sm md:p-7 md:pt-16">
 
