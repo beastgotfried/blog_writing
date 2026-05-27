@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Serif:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Serif:wght@400;500&display=swap');
 @import 'tailwindcss';
 
 :root {
@@ -33,49 +33,15 @@ h4 {
   font-family: 'IBM Plex Serif', serif;
 }
 
-.star {
-  position: absolute;
-  border-radius: 999px;
-  width: var(--size);
-  height: var(--size);
-  left: var(--left);
-  top: var(--top);
-  background: rgba(255, 255, 255, 0.8);
-  opacity: 0.2;
-  animation:
-    twinkle var(--twinkle) ease-in-out infinite,
-    drift var(--drift) ease-in-out infinite;
-  animation-delay: var(--delay), var(--delay);
-  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.32));
-}
-
-@keyframes twinkle {
-  0%,
-  100% {
-    opacity: 0.12;
-  }
-
-  50% {
-    opacity: 0.7;
-  }
-}
-
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: translate3d(var(--dx), var(--dy), 0);
-  }
-}
-
 .prose-note p {
   margin-top: 0;
   margin-bottom: 1rem;
   color: #9ca3af;
   line-height: 1.7;
+}
+
+.content-section {
+  font-family: var(--font-geist-sans, 'Geist'), 'IBM Plex Sans', sans-serif;
 }
 
 .prose-note code {
