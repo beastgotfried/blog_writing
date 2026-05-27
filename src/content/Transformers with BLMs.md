@@ -20,13 +20,13 @@ Lets now dive into the design architecture of the system step by step.
  
 ## Complete System Architecture
  
-![Architecture](/public/images/architecture_final.png)
+![Architecture](images/architecture_final.png)
  
 ---
  
 ## Step 1: Data Ingestion & Preprocessing
  
-![Step 1 Architecture](/public/images/step1_arch.png)
+![Step 1 Architecture](images/step1_arch.png)
  
 So like always we will be taking input of the dataset. A few interesting things will happen in this step:
  
@@ -37,7 +37,7 @@ So like always we will be taking input of the dataset. A few interesting things 
  
 ## Step 2: Model Foundations
  
-![Step 2 Architecture](/public/images/step2_arch.png)
+![Step 2 Architecture](/images/step2_arch.png)
  
 Now lets walk into the actual deeper functioning of how we are going to build and preposition our data to easily walk into the neural net we will create for attention modules and feed into the language model.
  
@@ -70,7 +70,7 @@ With this we will end up with a matrix of size `[B, T]`:
  
 ## Step 3: The Bigram Language Model
  
-![Bigram](/public/images/bigram.png)
+![Bigram](/images/bigram.png)
  
 A deeper dive into the bigram model suggests that it works predicting token by token. In this case the token defined by us is a single character.
  
@@ -106,7 +106,7 @@ Lets get into a few methods of self attention that have been proposed by the res
  
 ### Method 1: Averaging Out Context
  
-![Method 1](/public/images/method1.png)
+![Method 1](images/method1.png)
  
 The first method suggests averaging out context. How self attention works is that we want it to have context of the values it has already iterated through, not the values we want to iterate it to.
  
@@ -114,7 +114,7 @@ Lets consider the array `[1, 2, 3, 4, 5]`. Now consider that we have to analyse 
  
 ### Method 2: Batch Matrix Multiply
  
-![Method 2](/public/images/method2.png)
+![Method 2](/images/method2.png)
  
 This method is a little more efficient than the previous one since the time complexity of the previous method is O(n²), which is higher than what we want when creating a model of this scale.
  
@@ -126,7 +126,7 @@ Whatever we are doing in the first method can be automated and made faster by co
 4. The second matrix will be our `[B, T, C]` matrix. The multiplication will be a `[3×3] × [2,2]` matrix — but as per basic laws of maths this isn't actually possible. Hence PyTorch when we run this code will add a column of size B on its own, converting it into a `[3×3] × [3,2]` allowing for the resultant to be a `[3×2]` matrix.
 ### Method 3: Softmax (Used in this model)
  
-![Method 3](/public/images/method3.png)
+![Method 3](/images/method3.png)
  
 Softmax here can do wonders while designing the self attention mechanism:
  
