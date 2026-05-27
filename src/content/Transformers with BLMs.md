@@ -20,13 +20,13 @@ Lets now dive into the design architecture of the system step by step.
  
 ## Complete System Architecture
  
-![Architecture](images/architecture_final.png)
+![Architecture](/images/architecture_final.png)
  
 ---
  
 ## Step 1: Data Ingestion & Preprocessing
  
-![Step 1 Architecture](images/step1_arch.png)
+![Step 1 Architecture](/images/step1_arch.png)
  
 So like always we will be taking input of the dataset. A few interesting things will happen in this step:
  
@@ -106,7 +106,7 @@ Lets get into a few methods of self attention that have been proposed by the res
  
 ### Method 1: Averaging Out Context
  
-![Method 1](images/method1.png)
+![Method 1](/images/method1.png)
  
 The first method suggests averaging out context. How self attention works is that we want it to have context of the values it has already iterated through, not the values we want to iterate it to.
  
