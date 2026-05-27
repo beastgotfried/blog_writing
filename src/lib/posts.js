@@ -14,13 +14,22 @@ function parseFrontmatter(raw) {
   const body = normalized.slice(end + 5).trim()
   const attributes = {}
 
+  const parseValue = (value) => {
+    const trimmed = value.trim()
+
+    if (/^true$/i.test(trimmed)) return true
+    if (/^false$/i.test(trimmed)) return false
+
+    return trimmed
+  }
+
   for (const line of header.split('\n')) {
     const divider = line.indexOf(':')
     if (divider === -1) continue
 
     const key = line.slice(0, divider).trim()
-    const value = line.slice(divider + 1).trim()
-    attributes[key] = value
+    const value = line.slice(divider + 1)
+    attributes[key] = parseValue(value)
   }
 
   if (typeof attributes.tags === 'string') {
@@ -50,6 +59,7 @@ export function loadPosts() {
       date: attributes.date ?? 'unknown',
       excerpt: attributes.excerpt ?? body.slice(0, 140),
       tags: Array.isArray(attributes.tags) ? attributes.tags : [],
+      isNew: attributes.new === true,
       repoUrl: attributes.repoUrl ?? '',
       content: body,
     }

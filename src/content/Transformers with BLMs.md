@@ -4,6 +4,7 @@ date: 2026-05-27
 tags: AI,LLMs,Transformers
 excerpt: Exploratory analysis on transformers and BLMs
 repoUrl: https://github.com/beastgotfried/gpt
+new: true
 ---
  
 # Transformers with BLMs
