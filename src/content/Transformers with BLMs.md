@@ -126,7 +126,7 @@ Whatever we are doing in the first method can be automated and made faster by co
 4. The second matrix will be our `[B, T, C]` matrix. The multiplication will be a `[3×3] × [2,2]` matrix — but as per basic laws of maths this isn't actually possible. Hence PyTorch when we run this code will add a column of size B on its own, converting it into a `[3×3] × [3,2]` allowing for the resultant to be a `[3×2]` matrix.
 ### Method 3: Softmax (Used in this model)
  
-![Method 3](/images/method3.png)
+![Method 3](/images/Method3.png)
  
 Softmax here can do wonders while designing the self attention mechanism:
  
