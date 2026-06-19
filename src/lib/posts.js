@@ -65,5 +65,12 @@ export function loadPosts() {
     }
   })
 
-  return posts.sort((a, b) => new Date(b.date) - new Date(a.date))
+  // Undated / unparseable posts (e.g. the placeholder teaser) sort to the
+  // bottom instead of poisoning the comparator with NaN.
+  const toTime = (value) => {
+    const time = new Date(value).getTime()
+    return Number.isNaN(time) ? -Infinity : time
+  }
+
+  return posts.sort((a, b) => toTime(b.date) - toTime(a.date))
 }
