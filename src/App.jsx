@@ -1,10 +1,16 @@
-import { ArrowLeft, Bird, BookOpenText, FolderGit2, Link as LinkIcon, MoonStar } from 'lucide-react'
-import { useMemo } from 'react'
-import { marked } from 'marked'
+import { ArrowLeft, Bird, BookOpenText, Clock, FolderGit2, Hash, Link as LinkIcon, MoonStar } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { Link, Navigate, Route, Routes, useParams } from 'react-router-dom'
-import { loadPosts } from './lib/posts'
+import { getAllTags, loadPosts } from './lib/posts'
+import { renderMarkdown } from './lib/markdown'
 import { PostCard } from './components/PostCard'
 import { Starfield } from './components/Starfield'
+
+// Used to build absolute URLs for Open Graph / Twitter card tags.
+const SITE_URL = 'https://beastgotfried.vercel.app'
+const SITE_TAGLINE = 'Notes, experiments, and lessons as I keep building and learning in public.'
+
+const toAbsolute = (url) => (url?.startsWith('http') ? url : `${SITE_URL}${url}`)
 
 function App() {
   const posts = useMemo(() => loadPosts(), [])
@@ -29,94 +35,127 @@ function App() {
 }
 
 function HomePage({ posts }) {
-  const recentPosts = posts.slice(0, 5)
+  const tags = useMemo(() => getAllTags(posts), [posts])
+  const [activeTag, setActiveTag] = useState(null)
+
+  const visiblePosts = useMemo(
+    () => (activeTag ? posts.filter((post) => post.tags.includes(activeTag)) : posts),
+    [posts, activeTag],
+  )
+
+  const chipClass = (active) =>
+    `inline-flex items-center gap-1 rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.12em] transition ${
+      active
+        ? 'border-white/60 bg-white/15 text-white'
+        : 'border-white/15 bg-white/5 text-gray-400 hover:border-white/35 hover:text-white'
+    }`
 
   return (
-    <main className="grid gap-4 md:h-[calc(100vh-7.2rem)] md:grid-cols-[1.08fr_0.92fr] md:gap-5">
-      <section className="rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/90 via-zinc-900/80 to-black p-5 backdrop-blur-sm md:flex md:flex-col md:p-7">
-        <header className="mb-5 border-b border-white/20 pb-4">
-          <div className="mb-3 flex items-center gap-2 text-white/80">
-            <MoonStar size={16} strokeWidth={1.5} />
-            <span className="text-xs tracking-[0.2em]">BEASTED</span>
-          </div>
-          <h1 className="m-0 text-3xl font-medium text-zinc-100 md:text-5xl">
-            Documenting My Journey In Tech
-          </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70 md:text-base">
-            Notes, experiments, and lessons as I keep building and learning in public.
-          </p>
-        </header>
+    <>
+      <title>BEASTED — Documenting My Journey In Tech</title>
+      <meta name="description" content={SITE_TAGLINE} />
 
-        <div className="rounded-[10px] border border-white/15 bg-black/35 p-4 md:p-5">
-          <h2 className="mb-3 mt-0 text-xs uppercase tracking-[0.16em] text-white/70">About Me</h2>
-          <p className="text-sm leading-7 text-zinc-300">
-            Hey, my name is Ankush and I am a 1st Year B.Tech Student. I am writing here because i dont have anyone to write to anymore and its fun to document things as you learn them <br /><br />
-          </p>
-          <p className="mt-3 text-xs leading-7 text-zinc-400">
-            You can always reach out with suggestions, corrections, or ideas for future posts.
-          </p>
-        </div>
+      <main className="grid gap-4 md:h-[calc(100vh-7.2rem)] md:grid-cols-[1.08fr_0.92fr] md:gap-5">
+        <section className="rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/90 via-zinc-900/80 to-black p-5 backdrop-blur-sm md:flex md:flex-col md:p-7">
+          <header className="mb-5 border-b border-white/20 pb-4">
+            <div className="mb-3 flex items-center gap-2 text-white/80">
+              <MoonStar size={16} strokeWidth={1.5} />
+              <span className="text-xs tracking-[0.2em]">BEASTED</span>
+            </div>
+            <h1 className="m-0 text-3xl font-medium text-zinc-100 md:text-5xl">
+              Documenting My Journey In Tech
+            </h1>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70 md:text-base">
+              {SITE_TAGLINE}
+            </p>
+          </header>
 
-        <div className="mt-4 rounded-[10px] border border-white/15 bg-black/30 p-4 md:mt-auto md:p-5">
-          <h3 className="mb-3 mt-0 text-xs uppercase tracking-[0.16em] text-white/70">Connect</h3>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="https://www.linkedin.com/in/ankush-wadehra-bb64b0258/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-[10px] border border-white/25 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white/90 transition hover:border-white/50"
-            >
-              <LinkIcon size={14} strokeWidth={1.7} />
-              LinkedIn
-            </a>
-            <a
-              href="https://github.com/beastgotfried"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-[10px] border border-white/25 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white/90 transition hover:border-white/50"
-            >
-              <FolderGit2 size={14} strokeWidth={1.7} />
-              GitHub
-            </a>
-            <a
-              href="https://x.com/wank_ush"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-[10px] border border-white/25 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white/90 transition hover:border-white/50"
-            >
-              <Bird size={14} strokeWidth={1.7} />
-              Twitter
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section className="rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/85 via-zinc-900/80 to-black backdrop-blur-sm md:flex md:min-h-0 md:flex-col">
-        <div className="border-b border-white/20 px-5 pt-4 md:px-7">
-          <div className="flex items-end justify-between gap-3">
-            <span className="inline-flex items-center gap-2 rounded-t-[10px] border border-white/30 border-b-black bg-black px-3 py-2 text-xs uppercase tracking-[0.16em] text-white">
-              <BookOpenText size={14} strokeWidth={1.5} />
-              Recent Blog Posts
-            </span>
-            <span className="pb-2 text-[11px] uppercase tracking-[0.14em] text-white/70">
-              {posts.length} total
-            </span>
-          </div>
-        </div>
-
-        <div className="p-5 md:min-h-0 md:flex-1 md:overflow-y-auto md:p-7">
-          <div className="mb-4 text-xs uppercase tracking-[0.16em] text-white/70">
-            latest entries
+          <div className="rounded-[10px] border border-white/15 bg-black/35 p-4 md:p-5">
+            <h2 className="mb-3 mt-0 text-xs uppercase tracking-[0.16em] text-white/70">About Me</h2>
+            <p className="text-sm leading-7 text-zinc-300">
+              Hey, my name is Ankush and I am a 1st Year B.Tech Student. I am writing here because i dont have anyone to write to anymore and its fun to document things as you learn them <br /><br />
+            </p>
+            <p className="mt-3 text-xs leading-7 text-zinc-400">
+              You can always reach out with suggestions, corrections, or ideas for future posts.
+            </p>
           </div>
 
-          <div className="grid gap-3">
-            {recentPosts.map((post) => (
-              <PostCard key={post.slug} post={post} />
-            ))}
+          <div className="mt-4 rounded-[10px] border border-white/15 bg-black/30 p-4 md:mt-auto md:p-5">
+            <h3 className="mb-3 mt-0 text-xs uppercase tracking-[0.16em] text-white/70">Connect</h3>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="https://www.linkedin.com/in/ankush-wadehra-bb64b0258/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-[10px] border border-white/25 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white/90 transition hover:border-white/50"
+              >
+                <LinkIcon size={14} strokeWidth={1.7} />
+                LinkedIn
+              </a>
+              <a
+                href="https://github.com/beastgotfried"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-[10px] border border-white/25 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white/90 transition hover:border-white/50"
+              >
+                <FolderGit2 size={14} strokeWidth={1.7} />
+                GitHub
+              </a>
+              <a
+                href="https://x.com/wank_ush"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-[10px] border border-white/25 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white/90 transition hover:border-white/50"
+              >
+                <Bird size={14} strokeWidth={1.7} />
+                Twitter
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+
+        <section className="rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/85 via-zinc-900/80 to-black backdrop-blur-sm md:flex md:min-h-0 md:flex-col">
+          <div className="border-b border-white/20 px-5 pt-4 md:px-7">
+            <div className="flex items-end justify-between gap-3">
+              <span className="inline-flex items-center gap-2 rounded-t-[10px] border border-white/30 border-b-black bg-black px-3 py-2 text-xs uppercase tracking-[0.16em] text-white">
+                <BookOpenText size={14} strokeWidth={1.5} />
+                Blog Posts
+              </span>
+              <span className="pb-2 text-[11px] uppercase tracking-[0.14em] text-white/70">
+                {activeTag ? `${visiblePosts.length} of ${posts.length}` : `${posts.length} total`}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex min-h-0 flex-1 flex-col p-5 md:p-7">
+            <div className="mb-3 flex flex-wrap gap-2">
+              <button type="button" onClick={() => setActiveTag(null)} className={chipClass(activeTag === null)}>
+                All
+              </button>
+              {tags.map((tag) => (
+                <button key={tag} type="button" onClick={() => setActiveTag(tag)} className={chipClass(activeTag === tag)}>
+                  <Hash size={10} strokeWidth={1.7} />
+                  {tag}
+                </button>
+              ))}
+            </div>
+
+            <div className="mb-4 text-xs uppercase tracking-[0.16em] text-white/70">
+              {activeTag ? `tagged “${activeTag}”` : 'all entries'}
+            </div>
+
+            <div className="grid min-h-0 flex-1 content-start gap-3 overflow-y-auto md:pr-1">
+              {visiblePosts.map((post) => (
+                <PostCard key={post.slug} post={post} />
+              ))}
+              {visiblePosts.length === 0 ? (
+                <p className="text-sm text-gray-500">No posts tagged “{activeTag}” yet.</p>
+              ) : null}
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
   )
 }
 
@@ -128,15 +167,35 @@ function BlogPostPage({ posts }) {
     return <Navigate to="/" replace />
   }
 
+  const description = post.excerpt
+  const ogImage = post.coverImage ? toAbsolute(post.coverImage) : `${SITE_URL}/favicon.png`
+  const ogUrl = `${SITE_URL}/blog/${encodeURIComponent(slug)}`
+
   return (
     <>
+      {/* React 19 hoists these into <head>, so the browser tab + share previews
+          reflect the current post. (Non-JS crawlers still see the site-level
+          defaults baked into index.html — see README note on prerendering.) */}
+      <title>{`${post.title} — BEASTED`}</title>
+      <meta name="description" content={description} />
+      <meta property="og:type" content="article" />
+      <meta property="og:title" content={post.title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:url" content={ogUrl} />
+      <meta name="twitter:card" content={post.coverImage ? 'summary_large_image' : 'summary'} />
+      <meta name="twitter:title" content={post.title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={ogImage} />
+
       <div className="fixed left-6 top-5 z-50 md:left-10 md:top-7">
         <Link
           to="/"
+          aria-label="Back to all posts"
+          title="Back to all posts"
           className="inline-flex items-center gap-2 rounded-[10px] border border-white/20 bg-black/70 px-3 py-2 text-xs uppercase tracking-[0.14em] text-gray-300 backdrop-blur-sm transition hover:border-white/40 hover:text-zinc-100"
         >
           <ArrowLeft size={14} strokeWidth={3} />
-          
         </Link>
       </div>
 
@@ -162,19 +221,39 @@ function BlogPostPage({ posts }) {
       ) : null}
 
       <main className="rounded-[10px] border border-white/10 bg-black/45 p-5 pt-14 backdrop-blur-sm md:p-7 md:pt-16">
+        <div className="mb-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs uppercase tracking-[0.16em] text-gray-500">
+          <span className="flex items-center gap-2">
+            <BookOpenText size={14} strokeWidth={1.5} />
+            {post.date}
+          </span>
+          <span className="flex items-center gap-2">
+            <Clock size={14} strokeWidth={1.5} />
+            {post.readingTime} min read
+          </span>
+        </div>
 
-      <div className="mb-5 flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-gray-500">
-        <BookOpenText size={14} strokeWidth={1.5} />
-        <span>{post.date}</span>
-      </div>
+        <h2 className="mb-4 mt-0 text-2xl font-medium text-zinc-100 md:text-3xl">
+          {post.title}
+        </h2>
 
-      <h2 className="mb-4 mt-0 text-2xl font-medium text-zinc-100 md:text-3xl">
-        {post.title}
-      </h2>
-      <div
-        className="prose-note content-section text-sm md:text-base"
-        dangerouslySetInnerHTML={{ __html: marked.parse(post.content) }}
-      />
+        {post.tags.length > 0 ? (
+          <div className="mb-6 flex flex-wrap gap-2">
+            {post.tags.map((tag) => (
+              <span
+                key={tag}
+                className="inline-flex items-center gap-1 border border-white/15 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-gray-400"
+              >
+                <Hash size={10} strokeWidth={1.7} />
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : null}
+
+        <div
+          className="prose-note content-section text-sm md:text-base"
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
+        />
       </main>
     </>
   )

@@ -1,4 +1,4 @@
-import { CalendarDays, Hash } from 'lucide-react'
+import { CalendarDays, Clock, Hash } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export function PostCard({ post }) {
@@ -17,9 +17,15 @@ export function PostCard({ post }) {
       <p className="mb-3 text-xs leading-6 text-gray-400">{post.excerpt}</p>
 
       <div className="mb-2 flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.14em] text-gray-500">
-        <div className="flex items-center gap-2">
-          <CalendarDays size={12} strokeWidth={1.6} />
-          <span>{post.date}</span>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className="flex items-center gap-2">
+            <CalendarDays size={12} strokeWidth={1.6} />
+            {post.date}
+          </span>
+          <span className="flex items-center gap-2">
+            <Clock size={12} strokeWidth={1.6} />
+            {post.readingTime} min read
+          </span>
         </div>
 
         {post.repoUrl ? (

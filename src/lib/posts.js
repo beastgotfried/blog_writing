@@ -42,6 +42,21 @@ function parseFrontmatter(raw) {
   return { attributes, body }
 }
 
+const WORDS_PER_MINUTE = 200
+
+// Deliberately simple: total whitespace-separated tokens / WPM. Prose and code
+// are counted the same — readers want a ballpark ("4 min read"), not precision.
+function estimateReadingTime(body) {
+  const words = body.trim().split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE))
+}
+
+// First Markdown image in the body, used as the per-post social-share (OG) card.
+function firstImage(body) {
+  const match = body.match(/!\[[^\]]*\]\(\s*([^)\s]+)/)
+  return match ? match[1] : ''
+}
+
 export function loadPosts() {
   const files = import.meta.glob('../content/*.md', {
     eager: true,
@@ -49,28 +64,43 @@ export function loadPosts() {
     import: 'default',
   })
 
-  const posts = Object.entries(files).map(([path, raw]) => {
-    const slug = path.split('/').pop().replace('.md', '')
-    const { attributes, body } = parseFrontmatter(raw)
-
-    return {
-      slug,
-      title: attributes.title ?? slug.replace(/-/g, ' '),
-      date: attributes.date ?? 'unknown',
-      excerpt: attributes.excerpt ?? body.slice(0, 140),
-      tags: Array.isArray(attributes.tags) ? attributes.tags : [],
-      isNew: attributes.new === true,
-      repoUrl: attributes.repoUrl ?? '',
-      content: body,
-    }
-  })
-
-  // Undated / unparseable posts (e.g. the placeholder teaser) sort to the
-  // bottom instead of poisoning the comparator with NaN.
+  // Undated / unparseable dates become -Infinity so they sort to the bottom
+  // instead of returning NaN and leaving the comparator order undefined.
   const toTime = (value) => {
     const time = new Date(value).getTime()
     return Number.isNaN(time) ? -Infinity : time
   }
 
-  return posts.sort((a, b) => toTime(b.date) - toTime(a.date))
+  return Object.entries(files)
+    .map(([path, raw]) => {
+      const slug = path.split('/').pop().replace('.md', '')
+      const { attributes, body } = parseFrontmatter(raw)
+
+      return {
+        slug,
+        title: attributes.title ?? slug.replace(/-/g, ' '),
+        date: attributes.date ?? 'unknown',
+        excerpt: attributes.excerpt ?? body.slice(0, 140),
+        tags: Array.isArray(attributes.tags) ? attributes.tags : [],
+        isNew: attributes.new === true,
+        draft: attributes.draft === true,
+        repoUrl: attributes.repoUrl ?? '',
+        coverImage: firstImage(body),
+        readingTime: estimateReadingTime(body),
+        content: body,
+      }
+    })
+    // `draft: true` posts are visible while developing (npm run dev) but never
+    // shipped to production.
+    .filter((post) => import.meta.env.DEV || !post.draft)
+    .sort((a, b) => toTime(b.date) - toTime(a.date))
+}
+
+// Unique, alphabetised tag list across all posts — powers the homepage filter.
+export function getAllTags(posts) {
+  const tags = new Set()
+  for (const post of posts) {
+    for (const tag of post.tags) tags.add(tag)
+  }
+  return [...tags].sort((a, b) => a.localeCompare(b))
 }
