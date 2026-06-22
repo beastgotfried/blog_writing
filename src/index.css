@@ -26,6 +26,50 @@ body {
   min-height: 100svh;
 }
 
+/* ---------------------------------------------------------------------------
+   Scrollbars — thin, translucent-white on transparent, so a scrollbar (e.g.
+   the blog list once it holds more than ~3 posts, long post bodies, or wide
+   code blocks) reads as part of the black/glass UI instead of the OS default.
+   `scrollbar-*` covers Firefox; `::-webkit-scrollbar-*` covers Chromium/Safari.
+--------------------------------------------------------------------------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  /* 2px transparent border + padding-box clip insets the thumb so it floats
+     in the gutter rather than touching the edges. */
+  border: 2px solid transparent;
+  background-color: rgba(255, 255, 255, 0.18);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.38);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Reserve the scrollbar's gutter so the post cards don't shift sideways the
+   moment the list grows past the visible area. */
+.scroll-area {
+  scrollbar-gutter: stable;
+}
+
 h1,
 h2,
 h3,

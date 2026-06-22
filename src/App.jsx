@@ -144,7 +144,7 @@ function HomePage({ posts }) {
               {activeTag ? `tagged “${activeTag}”` : 'all entries'}
             </div>
 
-            <div className="grid min-h-0 flex-1 content-start gap-3 overflow-y-auto md:pr-1">
+            <div className="scroll-area grid min-h-0 flex-1 content-start gap-3 overflow-y-auto pr-1">
               {visiblePosts.map((post) => (
                 <PostCard key={post.slug} post={post} />
               ))}
