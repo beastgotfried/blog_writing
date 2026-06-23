@@ -44,6 +44,32 @@ function parseFrontmatter(raw) {
 
 const WORDS_PER_MINUTE = 200
 
+function slugify(value) {
+  return String(value ?? '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/['"]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+function buildUniqueSlug(base, usedSlugs) {
+  const fallback = 'post'
+  const root = slugify(base) || fallback
+  let slug = root
+  let counter = 2
+
+  while (usedSlugs.has(slug)) {
+    slug = `${root}-${counter}`
+    counter += 1
+  }
+
+  usedSlugs.add(slug)
+  return slug
+}
+
 // Deliberately simple: total whitespace-separated tokens / WPM. Prose and code
 // are counted the same — readers want a ballpark ("4 min read"), not precision.
 function estimateReadingTime(body) {
@@ -71,14 +97,20 @@ export function loadPosts() {
     return Number.isNaN(time) ? -Infinity : time
   }
 
+  const usedSlugs = new Set()
+
   return Object.entries(files)
     .map(([path, raw]) => {
-      const slug = path.split('/').pop().replace('.md', '')
+      const sourceSlug = path.split('/').pop().replace('.md', '')
       const { attributes, body } = parseFrontmatter(raw)
+      const title = attributes.title ?? sourceSlug.replace(/-/g, ' ')
+      const slug = buildUniqueSlug(attributes.slug ?? title ?? sourceSlug, usedSlugs)
+      const legacySlugs = [...new Set([sourceSlug, slugify(sourceSlug), attributes.slug].filter(Boolean))]
 
       return {
         slug,
-        title: attributes.title ?? slug.replace(/-/g, ' '),
+        legacySlugs,
+        title,
         date: attributes.date ?? 'unknown',
         excerpt: attributes.excerpt ?? body.slice(0, 140),
         tags: Array.isArray(attributes.tags) ? attributes.tags : [],

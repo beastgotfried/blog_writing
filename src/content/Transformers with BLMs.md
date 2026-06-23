@@ -1,5 +1,6 @@
 ---
 title: Transformers with BLMs
+slug: transformers-with-blms
 date: 2026-05-27
 tags: AI,LLMs,Transformers
 excerpt: Exploratory analysis on transformers and BLMs

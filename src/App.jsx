@@ -12,6 +12,14 @@ const SITE_TAGLINE = 'Notes, experiments, and lessons as I keep building and lea
 
 const toAbsolute = (url) => (url?.startsWith('http') ? url : `${SITE_URL}${url}`)
 
+const safeDecode = (value) => {
+  try {
+    return decodeURIComponent(value)
+  } catch {
+    return value
+  }
+}
+
 function App() {
   const posts = useMemo(() => loadPosts(), [])
 
@@ -161,15 +169,27 @@ function HomePage({ posts }) {
 
 function BlogPostPage({ posts }) {
   const { slug } = useParams()
-  const post = posts.find((item) => item.slug === slug)
+  const routeSlug = slug ?? ''
+  const decodedSlug = safeDecode(routeSlug)
+  const post = posts.find(
+    (item) =>
+      item.slug === routeSlug ||
+      item.slug === decodedSlug ||
+      item.legacySlugs.includes(routeSlug) ||
+      item.legacySlugs.includes(decodedSlug),
+  )
 
   if (!post) {
     return <Navigate to="/" replace />
   }
 
+  if (routeSlug !== post.slug) {
+    return <Navigate to={`/blog/${post.slug}`} replace />
+  }
+
   const description = post.excerpt
   const ogImage = post.coverImage ? toAbsolute(post.coverImage) : `${SITE_URL}/favicon.png`
-  const ogUrl = `${SITE_URL}/blog/${encodeURIComponent(slug)}`
+  const ogUrl = `${SITE_URL}/blog/${post.slug}`
 
   return (
     <>
