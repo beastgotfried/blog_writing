@@ -1,0 +1,52 @@
+%%{init: {"theme": "base", "themeVariables": {"background": "#050505", "fontFamily": "Arial, Helvetica, sans-serif", "primaryTextColor": "#f7f7f2", "primaryBorderColor": "#ffffff", "lineColor": "#c7c7bd", "edgeLabelBackground": "#050505", "clusterBkg": "#0b0b0b", "clusterBorder": "#3f3f46", "tertiaryColor": "#18181b"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 38, "rankSpacing": 54}}}%%
+flowchart TB
+  User(["User enters a goal"])
+
+  Client["React + Vite frontend<br/><b>Hosted on Vercel</b><br/>Goal form + run settings<br/>Live SSE trace<br/>Pause / resume / cancel<br/>Completed-run chat"]
+
+  API["FastAPI backend<br/><b>Hosted on Railway</b><br/>POST /runs creates an AgentState<br/>GET /runs/{id}/stream sends SSE events<br/>Pause / resume / cancel endpoints<br/>Completed-run chat + tools list"]
+
+  subgraph Brain["Server-side LangGraph agent brain"]
+    direction LR
+    Plan["plan<br/>make task queue"]
+    Pick["pick_task<br/>select next task"]
+    Analyze["analyze<br/>choose tool"]
+    Execute["execute<br/>run tool"]
+    Next{"next?"}
+    Create["create_tasks<br/>optional follow-up"]
+    Summarize["summarize<br/>final answer"]
+
+    Plan --> Pick --> Analyze --> Execute --> Next
+    Next -->|"more tasks"| Pick
+    Next -->|"expand_tasks"| Create --> Pick
+    Next -->|"done / loop limit"| Summarize
+  end
+
+  Tools["Tool registry + model layer<br/>reason: general thinking<br/>search: DuckDuckGo research<br/>code: implementation help<br/>conclude: finish a task<br/>Groq LLM powers reasoning, code, chat, summary"]
+
+  Store[("SQLite on Railway volume<br/>runs.sqlite: status, AgentState, chat<br/>checkpoints.sqlite: LangGraph checkpoints")]
+
+  User --> Client
+  Client <-->|create runs, stream events, controls, chat| API
+  API -->|starts or resumes graph| Plan
+  API -->|persists run + chat state| Store
+  Brain -->|node updates + checkpoints| Store
+  Analyze -.->|selects| Tools
+  Execute -->|uses selected tool| Tools
+  Summarize -->|uses model| Tools
+
+  classDef user fill:#f7f7f2,stroke:#f7f7f2,color:#050505;
+  classDef client fill:#172554,stroke:#93c5fd,color:#f8fafc;
+  classDef api fill:#14532d,stroke:#86efac,color:#f7fee7;
+  classDef brain fill:#3b0764,stroke:#d8b4fe,color:#faf5ff;
+  classDef decision fill:#451a03,stroke:#fdba74,color:#fff7ed;
+  classDef tools fill:#7c2d12,stroke:#fed7aa,color:#fff7ed;
+  classDef data fill:#1f2937,stroke:#d1d5db,color:#f9fafb;
+
+  class User user;
+  class Client client;
+  class API api;
+  class Plan,Pick,Analyze,Execute,Create,Summarize brain;
+  class Next decision;
+  class Tools tools;
+  class Store data;
