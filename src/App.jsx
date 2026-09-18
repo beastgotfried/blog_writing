@@ -7,7 +7,7 @@ import { PostCard } from './components/PostCard'
 import { Starfield } from './components/Starfield'
 
 // Used to build absolute URLs for Open Graph / Twitter card tags.
-const SITE_URL = 'https://beastgotfried.vercel.app'
+const SITE_URL = 'https://ankush.space'
 const SITE_TAGLINE = 'Notes, experiments, and lessons as I keep building and learning in public.'
 
 const toAbsolute = (url) => (url?.startsWith('http') ? url : `${SITE_URL}${url}`)
@@ -29,8 +29,9 @@ function App() {
 
       <div className="relative z-10 mx-auto w-full max-w-6xl">
         <Routes>
-          <Route path="/" element={<HomePage posts={posts} />} />
-          <Route path="/blog/:slug" element={<BlogPostPage posts={posts} />} />
+          <Route path="/" element={<WorkInProgressPage />} />
+          <Route path="/blogs" element={<HomePage posts={posts} />} />
+          <Route path="/blogs/blog/:slug" element={<BlogPostPage posts={posts} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
 
@@ -39,6 +40,50 @@ function App() {
         </footer>
       </div>
     </div>
+  )
+}
+
+function WorkInProgressPage() {
+  return (
+    <>
+      <title>Ankush Wadehra — Work in Progress</title>
+      <meta name="description" content="Ankush Wadehra is reworking this space. Read the blog while the portfolio is being rebuilt." />
+      <main className="grid min-h-[calc(100vh-5rem)] items-center gap-8 py-8 md:grid-cols-[0.9fr_1.1fr] md:gap-14 md:py-14">
+      <section className="order-2 md:order-1">
+        <div className="mb-6 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-zinc-400">
+          <MoonStar size={16} strokeWidth={1.5} />
+          <span>ankush.space</span>
+        </div>
+        <h1 className="max-w-xl text-5xl font-medium leading-[0.98] tracking-tight text-zinc-100 md:text-7xl">
+          Something good is still loading.
+        </h1>
+        <p className="mt-6 max-w-md text-base leading-7 text-zinc-400 md:text-lg">
+          The portfolio is taking a little break while I rework the space. In the meantime, you can read what I am learning and building.
+        </p>
+        <Link
+          to="/blogs"
+          className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition hover:-translate-y-0.5 hover:bg-zinc-200 active:translate-y-0"
+        >
+          Visit the blog
+          <ArrowLeft className="rotate-180" size={15} strokeWidth={2} />
+        </Link>
+      </section>
+
+      <figure className="order-1 overflow-hidden rounded-[18px] border border-white/15 bg-zinc-900 shadow-2xl shadow-black/40 md:order-2">
+        <img
+          src="/cat.jpg"
+          alt="A curious cat looking toward the camera"
+          className="aspect-[4/3] w-full object-cover"
+          width="1200"
+          height="800"
+        />
+        <figcaption className="flex items-center justify-between gap-4 border-t border-white/10 px-4 py-3 text-xs text-zinc-500">
+          <span>Temporary resident of the homepage</span>
+          <span aria-hidden="true">✦</span>
+        </figcaption>
+      </figure>
+      </main>
+    </>
   )
 }
 
@@ -184,12 +229,12 @@ function BlogPostPage({ posts }) {
   }
 
   if (routeSlug !== post.slug) {
-    return <Navigate to={`/blog/${post.slug}`} replace />
+    return <Navigate to={`/blogs/blog/${post.slug}`} replace />
   }
 
   const description = post.excerpt
   const ogImage = post.coverImage ? toAbsolute(post.coverImage) : `${SITE_URL}/favicon.png`
-  const ogUrl = `${SITE_URL}/blog/${post.slug}`
+  const ogUrl = `${SITE_URL}/blogs/blog/${post.slug}`
 
   return (
     <>
@@ -210,7 +255,7 @@ function BlogPostPage({ posts }) {
 
       <div className="fixed left-6 top-5 z-50 md:left-10 md:top-7">
         <Link
-          to="/"
+          to="/blogs"
           aria-label="Back to all posts"
           title="Back to all posts"
           className="inline-flex items-center gap-2 rounded-[10px] border border-white/20 bg-black/70 px-3 py-2 text-xs uppercase tracking-[0.14em] text-gray-300 backdrop-blur-sm transition hover:border-white/40 hover:text-zinc-100"

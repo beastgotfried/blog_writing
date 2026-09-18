@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 export function PostCard({ post }) {
   return (
     <Link
-      to={`/blog/${post.slug}`}
+      to={`/blogs/blog/${post.slug}`}
       className="gradient-border post-card relative block w-full overflow-hidden rounded-[10px] border border-white/10 bg-black/35 p-4 text-left transition hover:border-white/25 hover:bg-white/5"
     >
       {post.isNew ? (

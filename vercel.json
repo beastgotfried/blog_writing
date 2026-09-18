@@ -1,7 +1,27 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/blogs/images/(.*)",
+      "destination": "/images/$1"
+    },
+    {
+      "source": "/blogs/favicon.png",
+      "destination": "/favicon.png"
+    },
+    {
+      "source": "/blogs/favicon.svg",
+      "destination": "/favicon.svg"
+    },
+    {
+      "source": "/blogs/icons.svg",
+      "destination": "/icons.svg"
+    },
+    {
+      "source": "/blogs",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/blogs/(.*)",
       "destination": "/index.html"
     }
   ]
