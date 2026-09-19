@@ -10,7 +10,7 @@ export function PostCard({ post }) {
         </span>
       ) : null}
 
-      <Link to={`/blogs/blog/${post.slug}`} className="block">
+      <Link to={`/blogs/${post.slug}`} className="block">
         <p className="mb-2 pr-14 text-sm text-zinc-100">{post.title}</p>
         <p className="mb-3 text-xs leading-6 text-gray-400">{post.excerpt}</p>
       </Link>

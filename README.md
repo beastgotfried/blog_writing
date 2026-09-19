@@ -17,7 +17,12 @@ post) are derived automatically.
 ## social previews / SEO
 
 Per-post `<title>` and Open Graph tags are set at runtime via React 19 document
-metadata, so browser tabs and JS-capable scrapers get the right preview. Plain
-HTML crawlers that don't run JS fall back to the site-level defaults in
-`index.html`. For true per-post cards on *every* crawler, add a prerender step
-(e.g. `vite-plugin-prerender` or a small SSG pass) — a future improvement.
+metadata, so browser tabs and JS-capable scrapers get the right preview. For
+plain-HTML crawlers (X, Discord, iMessage…), `npm run build` also runs
+`scripts/prerender-meta.js`, which bakes one static HTML file per route
+(`dist/blogs/` + `dist/blogs/<slug>/`) with the right tags — Vercel serves
+those files directly, so every link unfurls with its own card. Keep the slug
+and frontmatter parsing in that script in sync with `src/lib/posts.js`.
+
+Post URLs look like `/blogs/<slug>` (the old `/blogs/blog/<slug>` shape
+redirects to the new one).

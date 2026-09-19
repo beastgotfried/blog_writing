@@ -20,6 +20,19 @@ const safeDecode = (value) => {
   }
 }
 
+// Matches the current slug plus older filename-based variants, so renamed
+// posts and the retired /blogs/blog/:slug URLs keep resolving.
+function findPostBySlug(posts, routeSlug) {
+  const decodedSlug = safeDecode(routeSlug ?? '')
+  return posts.find(
+    (item) =>
+      item.slug === routeSlug ||
+      item.slug === decodedSlug ||
+      item.legacySlugs.includes(routeSlug) ||
+      item.legacySlugs.includes(decodedSlug),
+  )
+}
+
 function App() {
   const posts = useMemo(() => loadPosts(), [])
 
@@ -31,7 +44,9 @@ function App() {
         <Routes>
           <Route path="/" element={<WorkInProgressPage />} />
           <Route path="/blogs" element={<HomePage posts={posts} />} />
-          <Route path="/blogs/blog/:slug" element={<BlogPostPage posts={posts} />} />
+          <Route path="/blogs/:slug" element={<BlogPostPage posts={posts} />} />
+          {/* Retired shape — old /blogs/blog/:slug links land on the new URL. */}
+          <Route path="/blogs/blog/:slug" element={<BlogLegacyRedirect posts={posts} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
 
@@ -227,29 +242,32 @@ function HomePage({ posts }) {
   )
 }
 
+function BlogLegacyRedirect({ posts }) {
+  const { slug } = useParams()
+  const post = findPostBySlug(posts, slug ?? '')
+
+  if (post) {
+    return <Navigate to={`/blogs/${post.slug}`} replace />
+  }
+  return <Navigate to="/blogs" replace />
+}
+
 function BlogPostPage({ posts }) {
   const { slug } = useParams()
   const routeSlug = slug ?? ''
-  const decodedSlug = safeDecode(routeSlug)
-  const post = posts.find(
-    (item) =>
-      item.slug === routeSlug ||
-      item.slug === decodedSlug ||
-      item.legacySlugs.includes(routeSlug) ||
-      item.legacySlugs.includes(decodedSlug),
-  )
+  const post = findPostBySlug(posts, routeSlug)
 
   if (!post) {
     return <Navigate to="/blogs" replace />
   }
 
   if (routeSlug !== post.slug) {
-    return <Navigate to={`/blogs/blog/${post.slug}`} replace />
+    return <Navigate to={`/blogs/${post.slug}`} replace />
   }
 
   const description = post.excerpt
   const ogImage = post.coverImage ? toAbsolute(post.coverImage) : `${SITE_URL}/favicon.png`
-  const ogUrl = `${SITE_URL}/blogs/blog/${post.slug}`
+  const ogUrl = `${SITE_URL}/blogs/${post.slug}`
 
   return (
     <>
