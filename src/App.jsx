@@ -139,10 +139,6 @@ function HomePage({ posts }) {
         <section className="flex min-h-0 flex-col overflow-hidden rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/90 via-zinc-900/80 to-black backdrop-blur-sm">
           <div className="scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain p-5 md:p-7">
           <header className="mb-5 border-b border-white/20 pb-4">
-            <div className="mb-3 flex items-center gap-2 text-white/80">
-              <MoonStar size={16} strokeWidth={1.5} />
-              <span className="text-xs tracking-[0.2em]">ANKUSH</span>
-            </div>
             <h1 className="m-0 text-3xl font-medium text-zinc-100 md:text-5xl">
               Documenting My Journey In Tech
             </h1>
