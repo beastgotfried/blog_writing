@@ -274,7 +274,7 @@ function BlogPostPage({ posts }) {
       {/* React 19 hoists these into <head>, so the browser tab + share previews
           reflect the current post. (Non-JS crawlers still see the site-level
           defaults baked into index.html — see README note on prerendering.) */}
-      <title>{`${post.title} — BEASTED`}</title>
+      <title>{post.title}</title>
       <meta name="description" content={description} />
       <meta property="og:type" content="article" />
       <meta property="og:title" content={post.title} />

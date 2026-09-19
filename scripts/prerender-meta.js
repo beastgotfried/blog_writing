@@ -158,7 +158,7 @@ const pages = [
   ...posts.map((post) => ({
     dir: join(distDir, 'blogs', post.slug),
     meta: {
-      title: escapeHtml(`${post.title} — BEASTED`),
+      title: escapeHtml(post.title),
       description: escapeHtml(post.excerpt),
       url: `${SITE_URL}/blogs/${post.slug}`,
       image: toAbsolute(post.coverImage),
