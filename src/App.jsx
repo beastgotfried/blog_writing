@@ -120,7 +120,7 @@ function HomePage({ posts }) {
 
   return (
     <>
-      <title>BEASTED — Documenting My Journey In Tech</title>
+      <title>Documenting My Journey In Tech</title>
       <meta name="description" content={SITE_TAGLINE} />
 
       <div className="flex flex-col md:h-[calc(100vh-6rem)] md:overflow-hidden">
@@ -141,7 +141,7 @@ function HomePage({ posts }) {
           <header className="mb-5 border-b border-white/20 pb-4">
             <div className="mb-3 flex items-center gap-2 text-white/80">
               <MoonStar size={16} strokeWidth={1.5} />
-              <span className="text-xs tracking-[0.2em]">BEASTED</span>
+              <span className="text-xs tracking-[0.2em]">ANKUSH</span>
             </div>
             <h1 className="m-0 text-3xl font-medium text-zinc-100 md:text-5xl">
               Documenting My Journey In Tech

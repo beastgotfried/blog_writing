@@ -147,7 +147,7 @@ const pages = [
   {
     dir: join(distDir, 'blogs'),
     meta: {
-      title: 'BEASTED — Documenting My Journey In Tech',
+      title: 'Documenting My Journey In Tech',
       description: escapeHtml(SITE_TAGLINE),
       url: `${SITE_URL}/blogs`,
       image: FALLBACK_IMAGE,
