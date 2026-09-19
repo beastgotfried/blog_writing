@@ -136,8 +136,8 @@ function HomePage({ posts }) {
       </div>
 
       <main className="grid min-h-0 flex-1 items-stretch gap-4 md:grid-cols-[1.02fr_0.98fr] md:gap-5">
-        <section className="flex min-h-0 flex-col overflow-hidden rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/90 via-zinc-900/80 to-black backdrop-blur-sm">
-          <div className="scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain p-5 md:p-7">
+        <section className="flex flex-col rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/90 via-zinc-900/80 to-black backdrop-blur-sm md:min-h-0 md:overflow-hidden">
+          <div className="scroll-area flex flex-col p-5 md:min-h-0 md:flex-1 md:overflow-y-auto md:overscroll-contain md:p-7">
           <header className="mb-5 border-b border-white/20 pb-4">
             <h1 className="m-0 text-3xl font-medium text-zinc-100 md:text-5xl">
               Documenting My Journey In Tech
@@ -192,7 +192,7 @@ function HomePage({ posts }) {
           </div>
         </section>
 
-        <section className="flex min-h-0 flex-col overflow-hidden rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/85 via-zinc-900/80 to-black backdrop-blur-sm">
+        <section className="flex flex-col rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/85 via-zinc-900/80 to-black backdrop-blur-sm md:min-h-0 md:overflow-hidden">
           <div className="shrink-0 border-b border-white/20 px-5 pt-4 md:px-7">
             <div className="flex items-end justify-between gap-3">
               <span className="inline-flex items-center gap-2 rounded-t-[10px] border border-white/30 border-b-black bg-black px-3 py-2 text-xs uppercase tracking-[0.16em] text-white">
@@ -205,7 +205,7 @@ function HomePage({ posts }) {
             </div>
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col gap-4 p-5 md:p-7">
+          <div className="flex flex-col gap-4 p-5 md:min-h-0 md:flex-1 md:p-7">
             <div className="flex shrink-0 flex-wrap gap-2">
               <button type="button" onClick={() => setActiveTag(null)} className={chipClass(activeTag === null)}>
                 All
@@ -222,7 +222,7 @@ function HomePage({ posts }) {
               {activeTag ? `tagged “${activeTag}”` : 'all entries — newest first'}
             </div>
 
-            <div className="scroll-area blog-list flex h-[522px] max-h-[70vh] min-h-0 flex-col gap-3 overflow-y-auto overscroll-contain pr-1 pb-2 md:h-auto md:max-h-none md:min-h-0 md:flex-1">
+            <div className="scroll-area blog-list flex flex-col gap-3 pb-2 md:min-h-0 md:flex-1 md:overflow-y-auto md:overscroll-contain md:pr-1">
               {visiblePosts.map((post) => (
                 <PostCard key={post.slug} post={post} />
               ))}
