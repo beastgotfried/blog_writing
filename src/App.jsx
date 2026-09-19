@@ -108,8 +108,21 @@ function HomePage({ posts }) {
       <title>BEASTED — Documenting My Journey In Tech</title>
       <meta name="description" content={SITE_TAGLINE} />
 
-      <main className="grid gap-4 md:h-[calc(100vh-7.2rem)] md:grid-cols-[1.08fr_0.92fr] md:gap-5">
-        <section className="rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/90 via-zinc-900/80 to-black p-5 backdrop-blur-sm md:flex md:flex-col md:p-7">
+      <div className="flex flex-col md:h-[calc(100vh-6rem)] md:overflow-hidden">
+      <div className="mb-3 flex shrink-0 items-center justify-between gap-3">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] uppercase tracking-[0.14em] text-gray-300 transition hover:border-white/35 hover:text-white"
+        >
+          <ArrowLeft size={13} strokeWidth={2} />
+          Home
+        </Link>
+        <span className="text-[11px] uppercase tracking-[0.16em] text-white/40">ankush.space / blogs</span>
+      </div>
+
+      <main className="grid min-h-0 flex-1 items-stretch gap-4 md:grid-cols-[1.02fr_0.98fr] md:gap-5">
+        <section className="flex min-h-0 flex-col overflow-hidden rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/90 via-zinc-900/80 to-black backdrop-blur-sm">
+          <div className="scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain p-5 md:p-7">
           <header className="mb-5 border-b border-white/20 pb-4">
             <div className="mb-3 flex items-center gap-2 text-white/80">
               <MoonStar size={16} strokeWidth={1.5} />
@@ -165,10 +178,11 @@ function HomePage({ posts }) {
               </a>
             </div>
           </div>
+          </div>
         </section>
 
-        <section className="rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/85 via-zinc-900/80 to-black backdrop-blur-sm md:flex md:min-h-0 md:flex-col">
-          <div className="border-b border-white/20 px-5 pt-4 md:px-7">
+        <section className="flex min-h-0 flex-col overflow-hidden rounded-[10px] border border-white/25 bg-linear-to-br from-zinc-900/85 via-zinc-900/80 to-black backdrop-blur-sm">
+          <div className="shrink-0 border-b border-white/20 px-5 pt-4 md:px-7">
             <div className="flex items-end justify-between gap-3">
               <span className="inline-flex items-center gap-2 rounded-t-[10px] border border-white/30 border-b-black bg-black px-3 py-2 text-xs uppercase tracking-[0.16em] text-white">
                 <BookOpenText size={14} strokeWidth={1.5} />
@@ -180,8 +194,8 @@ function HomePage({ posts }) {
             </div>
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col p-5 md:p-7">
-            <div className="mb-3 flex flex-wrap gap-2">
+          <div className="flex min-h-0 flex-1 flex-col gap-4 p-5 md:p-7">
+            <div className="flex shrink-0 flex-wrap gap-2">
               <button type="button" onClick={() => setActiveTag(null)} className={chipClass(activeTag === null)}>
                 All
               </button>
@@ -193,11 +207,11 @@ function HomePage({ posts }) {
               ))}
             </div>
 
-            <div className="mb-4 text-xs uppercase tracking-[0.16em] text-white/70">
-              {activeTag ? `tagged “${activeTag}”` : 'all entries'}
+            <div className="shrink-0 text-xs uppercase tracking-[0.16em] text-white/70">
+              {activeTag ? `tagged “${activeTag}”` : 'all entries — newest first'}
             </div>
 
-            <div className="scroll-area grid min-h-0 flex-1 content-start gap-3 overflow-y-auto pr-1">
+            <div className="scroll-area blog-list flex h-[522px] max-h-[70vh] min-h-0 flex-col gap-3 overflow-y-auto overscroll-contain pr-1 pb-2 md:h-auto md:max-h-none md:min-h-0 md:flex-1">
               {visiblePosts.map((post) => (
                 <PostCard key={post.slug} post={post} />
               ))}
@@ -208,6 +222,7 @@ function HomePage({ posts }) {
           </div>
         </section>
       </main>
+      </div>
     </>
   )
 }
@@ -225,7 +240,7 @@ function BlogPostPage({ posts }) {
   )
 
   if (!post) {
-    return <Navigate to="/" replace />
+    return <Navigate to="/blogs" replace />
   }
 
   if (routeSlug !== post.slug) {

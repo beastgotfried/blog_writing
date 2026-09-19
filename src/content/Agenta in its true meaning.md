@@ -4,7 +4,6 @@ slug: agenta-in-its-true-meaning
 date: 2026-06-22
 tags: AI,Agents,LangGraph,LLMs
 excerpt: A deep dive into Agenta, the agent orchestrator I am currently building
-new: true
 ---
 
 Hey, welcome back.

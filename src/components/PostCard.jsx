@@ -3,18 +3,17 @@ import { Link } from 'react-router-dom'
 
 export function PostCard({ post }) {
   return (
-    <Link
-      to={`/blogs/blog/${post.slug}`}
-      className="gradient-border post-card relative block w-full overflow-hidden rounded-[10px] border border-white/10 bg-black/35 p-4 text-left transition hover:border-white/25 hover:bg-white/5"
-    >
+    <article className="gradient-border post-card relative block w-full shrink-0 overflow-hidden rounded-[10px] border border-white/10 bg-black/35 p-4 text-left transition hover:border-white/25 hover:bg-white/5">
       {post.isNew ? (
         <span className="post-card-badge" aria-hidden="true">
           NEW
         </span>
       ) : null}
 
-      <p className="mb-2 text-sm text-zinc-100">{post.title}</p>
-      <p className="mb-3 text-xs leading-6 text-gray-400">{post.excerpt}</p>
+      <Link to={`/blogs/blog/${post.slug}`} className="block">
+        <p className="mb-2 pr-14 text-sm text-zinc-100">{post.title}</p>
+        <p className="mb-3 text-xs leading-6 text-gray-400">{post.excerpt}</p>
+      </Link>
 
       <div className="mb-2 flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.14em] text-gray-500">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -33,9 +32,10 @@ export function PostCard({ post }) {
             href={post.repoUrl}
             target="_blank"
             rel="noreferrer"
+            onClick={(event) => event.stopPropagation()}
             aria-label="Open reference repository"
             title="Open reference repository"
-            className="inline-flex h-7 w-7 items-center justify-center rounded-[10px] border border-white/15 bg-white/5 text-white/75 transition hover:border-white/35 hover:bg-white/10 hover:text-white"
+            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-[10px] border border-white/15 bg-white/5 text-white/75 transition hover:border-white/35 hover:bg-white/10 hover:text-white"
           >
             <svg
               viewBox="0 0 24 24"
@@ -60,6 +60,6 @@ export function PostCard({ post }) {
           </span>
         ))}
       </div>
-    </Link>
+    </article>
   )
 }

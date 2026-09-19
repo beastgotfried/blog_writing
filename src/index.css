@@ -70,6 +70,16 @@ body {
   scrollbar-gutter: stable;
 }
 
+/* Blog list shows ~3 cards at a time and scrolls for the rest. Snap keeps
+   cards from resting half-cut the way the screenshot showed. */
+.blog-list {
+  scroll-snap-type: y proximity;
+}
+
+.blog-list > * {
+  scroll-snap-align: start;
+}
+
 h1,
 h2,
 h3,

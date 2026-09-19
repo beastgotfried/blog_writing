@@ -1,3 +1,12 @@
+---
+title: The Day DeepSeek Tried to Jailbreak My Environment
+slug: the-day-deepseek-tried-to-jailbreak-my-environment
+date: 2026-09-18
+tags: AI,Agents,DeepSeek,Security
+excerpt: I caught DeepSeek probing its environment, shopping for other models, and trying to break out of the model relay.
+new: true
+---
+
 # The Day DeepSeek Tried to Jailbreak My Environment
 
 Its been a long while since i wrote something partially because i was hogged up at working a J\*B at a subtle datafarm selling training environments to train frontier scale models

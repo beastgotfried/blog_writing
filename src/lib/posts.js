@@ -114,7 +114,7 @@ export function loadPosts() {
         date: attributes.date ?? 'unknown',
         excerpt: attributes.excerpt ?? body.slice(0, 140),
         tags: Array.isArray(attributes.tags) ? attributes.tags : [],
-        isNew: attributes.new === true,
+        isNew: false,
         draft: attributes.draft === true,
         repoUrl: attributes.repoUrl ?? '',
         coverImage: firstImage(body),
@@ -126,6 +126,11 @@ export function loadPosts() {
     // shipped to production.
     .filter((post) => import.meta.env.DEV || !post.draft)
     .sort((a, b) => toTime(b.date) - toTime(a.date))
+    // Only the newest published post gets the badge.
+    .map((post, index) => ({
+      ...post,
+      isNew: index === 0,
+    }))
 }
 
 // Unique, alphabetised tag list across all posts — powers the homepage filter.
