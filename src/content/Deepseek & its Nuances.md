@@ -1,5 +1,5 @@
 ---
-title: The Day DeepSeek Tried to Jailbreak My Environment
+title: Deepseek and its Nuances
 slug: the-day-deepseek-tried-to-jailbreak-my-environment
 date: 2026-09-18
 tags: AI,Agents,DeepSeek,Security
